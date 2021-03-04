@@ -20,9 +20,7 @@ Reading of the 'test_images/solidWhiteRight.jpg' on which the pipeline would be 
 
 Applying gray scale image to the original image using cvtColor() function of opencv.
 
-<img src="examples/Step1.jpg" width="480" alt="Combined Image" />
-
-[image1]: ./examples/Step1.jpg "Grayscale"
+<img src="examples/Step1.JPG" width="480" />
 
 #### Step 2:
 
@@ -32,7 +30,7 @@ I have defined the lower and upper threshold as 50 and 150 for the canny finctio
 
 Below is the result of the canny edges :
 
-<img src="examples/Step2.jpg" width="480" alt="Combined Image" />
+<img src="examples/Step2.JPG" width="480" />
 
 #### Step 3:
 
@@ -42,7 +40,7 @@ kernel size of 3 was provided to the opencv GaussianBlur() function.
 
 Below is the outcome of the gaussian blur image :
 
-<img src="examples/Step3.jpg" width="480" alt="Combined Image" />
+<img src="examples/Step3.JPG" width="480" />
 
 #### Step 4:
 
@@ -54,7 +52,7 @@ vertices = np.array([[(0,blur_gray.shape[0]),(485, 320), (490, 320), (blur_gray.
 
 Below is the outcome of the region of intrest function  :
 
-<img src="examples/Step4.jpg" width="480" alt="Combined Image" />
+<img src="examples/Step4.JPG" width="480" />
 
 #### Step 5:
 
@@ -72,7 +70,7 @@ Below is the parameters values identified for the HoughLinesP funtion.
 
 Outcome of the HoughLinesP and draw_line mentiods :
 
-<img src="examples/Step5.jpg" width="480" alt="Combined Image" />
+<img src="examples/Step5.JPG" width="480" />
 
 #### Step 6:
 
@@ -80,7 +78,7 @@ In this step we finally append the hough lines to the orginal image to give a li
 
 Outcome of the final processed image of the pipeline :
 
-<img src="examples/Step6.jpg" width="480" alt="Combined Image" />
+<img src="examples/Step6.JPG" width="480" />
 
 
 
