@@ -14,43 +14,79 @@ To complete the project, two files will be submitted: a file containing project 
 
 To meet specifications in the project, take a look at the requirements in the [project rubric](https://review.udacity.com/#!/rubrics/322/view)
 
+## Project Writeup
+ 
+### Reflection
 
-Creating a Great Writeup
----
-For this project, a great writeup should provide a detailed response to the "Reflection" section of the [project rubric](https://review.udacity.com/#!/rubrics/322/view). There are three parts to the reflection:
+### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
 
-1. Describe the pipeline
+The pipelines which I used consits of the below steps in order. 
+   
+#### Step 1:
 
-2. Identify any shortcomings
+Reading of the 'test_images/solidWhiteRight.jpg' on which the pipeline would be tested. 
 
-3. Suggest possible improvements
+<img src="examples/initial_image.jpg" width="480" alt="Combined Image" />
 
-We encourage using images in your writeup to demonstrate how your pipeline works.  
+Applying gray scale image to the original image using cvtColor() function of opencv.
 
-All that said, please be concise!  We're not looking for you to write a book here: just a brief description.
+<img src="examples/Step1.JPG" width="480" />
 
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup. Here is a link to a [writeup template file](https://github.com/udacity/CarND-LaneLines-P1/blob/master/writeup_template.md). 
+#### Step 2:
 
+Once the gray scale is applied we used that image to identify canny edges using the opencv.
 
-The Project
----
+I have defined the lower and upper threshold as 50 and 150 for the canny finction respectively.
 
-## If you have already installed the [CarND Term1 Starter Kit](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/README.md) you should be good to go!   If not, you should install the starter kit to get started on this project. ##
+Below is the result of the canny edges :
 
-**Step 1:** Set up the [CarND Term1 Starter Kit](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/README.md) if you haven't already.
+<img src="examples/Step2.JPG" width="480" />
 
-**Step 2:** Open the code in a Jupyter Notebook
+#### Step 3:
 
-You will complete the project code in a Jupyter notebook.  If you are unfamiliar with Jupyter Notebooks, check out [Udacity's free course on Anaconda and Jupyter Notebooks](https://classroom.udacity.com/courses/ud1111) to get started.
+Next step in pipeline i applied the gaussian blur to smooth the canny edge image. Again we used opencv for this.
 
-Jupyter is an Ipython notebook where you can run blocks of code and see results interactively.  All the code for this project is contained in a Jupyter notebook. To start Jupyter in your browser, use terminal to navigate to your project directory and then run the following command at the terminal prompt (be sure you've activated your Python 3 carnd-term1 environment as described in the [CarND Term1 Starter Kit](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/README.md) installation instructions!):
+kernel size of 3 was provided to the opencv GaussianBlur() function.
 
-`> jupyter notebook`
+Below is the outcome of the gaussian blur image :
 
-A browser window will appear showing the contents of the current directory.  Click on the file called "P1.ipynb".  Another browser window will appear displaying the notebook.  Follow the instructions in the notebook to complete the project.  
+<img src="examples/Step3.JPG" width="480" />
 
-**Step 3:** Complete the project and submit both the Ipython notebook and the project writeup
+#### Step 4:
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+In this step we defined the region of intrest for the canny edge image. Basically we are trying to identify the parallel lines corresponding to the path that the veichle is following. 
+
+Below are the vertices used for the opencc fillpolly() mentiod . 
+
+vertices = np.array([[(0,blur_gray.shape[0]),(485, 320), (490, 320), (blur_gray.shape[1],blur_gray.shape[0])]], dtype=np.int32)
+
+Below is the outcome of the region of intrest function  :
+
+<img src="examples/Step4.JPG" width="480" />
+
+#### Step 5:
+
+In this step of the pipeline we use opencv HoughLinesP() method to identy the lines in the image . 
+
+Below is the parameters values identified for the HoughLinesP funtion.
+
+ rho = 2 - distance resolution in pixels of the Hough grid
+ theta = np.pi/180 - angular resolution in radians of the Hough grid
+ threshold = 15     - minimum number of votes (intersections in Hough grid cell)
+ min_line_length = 40 - minimum number of pixels making up a line
+ max_line_gap = 20    - maximum gap in pixels between connectable line segments
+ 
+ In this step have updated the draw_lines() method to create a straigh line across the lane identified from the HoughLinesP finction.
+
+Outcome of the HoughLinesP and draw_line mentiods :
+
+<img src="examples/Step5.JPG" width="480" />
+
+#### Step 6:
+
+In this step we finally append the hough lines to the orginal image to give a lines on top of image kind of feel. 
+
+Outcome of the final processed image of the pipeline :
+
+<img src="examples/Step6.JPG" width="480" />
 
