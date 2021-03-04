@@ -1,47 +1,92 @@
 # **Finding Lane Lines on the Road** 
 
-## Writeup Template
+In this project, I have used computer vision Open CV to identify lane lines on the road, first in an image, and later in a video stream.
 
-### You can use this file as a template for your writeup if you want to submit it as a markdown file. But feel free to use some other method and submit a pdf if you prefer.
+The goal in this project is to write code including a series of steps (pipeline) that identify and draw the lane lines on a few test images. Once we have successfully identified the lines in an image, we use that pipeline to execute the code in a series of images resulting in a video.
 
----
-
-**Finding Lane Lines on the Road**
-
-The goals / steps of this project are the following:
-* Make a pipeline that finds lane lines on the road
-* Reflect on your work in a written report
-
-
-[//]: # (Image References)
-
-[image1]: ./examples/grayscale.jpg "Grayscale"
-
----
 
 ### Reflection
 
 ### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
+The pipelines which I used consits of the below steps in order. 
+    
+   
+#### Step 1:
 
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
+Reading of the 'test_images/solidWhiteRight.jpg' on which the pipeline would be tested. 
 
-If you'd like to include images to show how the pipeline works, here is how to include an image: 
+<img src="examples/initial_image.jpg" width="480" alt="Combined Image" />
 
-![alt text][image1]
+Applying gray scale image to the original image using cvtColor() function of opencv.
+
+<img src="examples/Step1.jpg" width="480" alt="Combined Image" />
+
+#### Step 2:
+
+Once the gray scale is applied we used that image to identify canny edges using the opencv.
+
+I have defined the lower and upper threshold as 50 and 150 for the canny finction respectively.
+
+Below is the result of the canny edges :
+
+<img src="examples/Step2.jpg" width="480" alt="Combined Image" />
+
+#### Step 3:
+
+Next step in pipeline i applied the gaussian blur to smooth the canny edge image. Again we used opencv for this.
+
+kernel size of 3 was provided to the opencv GaussianBlur() function.
+
+Below is the outcome of the gaussian blur image :
+
+<img src="examples/Step3.jpg" width="480" alt="Combined Image" />
+
+#### Step 4:
+
+In this step we defined the region of intrest for the canny edge image. Basically we are trying to identify the parallel lines corresponding to the path that the veichle is following. 
+
+Below are the vertices used for the opencc fillpolly() mentiod . 
+
+vertices = np.array([[(0,blur_gray.shape[0]),(485, 320), (490, 320), (blur_gray.shape[1],blur_gray.shape[0])]], dtype=np.int32)
+
+Below is the outcome of the region of intrest function  :
+
+<img src="examples/Step4.jpg" width="480" alt="Combined Image" />
+
+#### Step 5:
+
+In this step of the pipeline we use opencv HoughLinesP() method to identy the lines in the image . 
+
+Below is the parameters values identified for the HoughLinesP funtion.
+
+ rho = 2 - distance resolution in pixels of the Hough grid
+ theta = np.pi/180 - angular resolution in radians of the Hough grid
+ threshold = 15     - minimum number of votes (intersections in Hough grid cell)
+ min_line_length = 40 - minimum number of pixels making up a line
+ max_line_gap = 20    - maximum gap in pixels between connectable line segments
+ 
+ In this step have updated the draw_lines() method to create a straigh line across the lane identified from the HoughLinesP finction.
+
+Outcome of the HoughLinesP and draw_line mentiods :
+
+<img src="examples/Step5.jpg" width="480" alt="Combined Image" />
+
+#### Step 6:
+
+In this step we finally append the hough lines to the orginal image to give a lines on top of image kind of feel. 
+
+Outcome of the final processed image of the pipeline :
+
+<img src="examples/Step6.jpg" width="480" alt="Combined Image" />
+
 
 
 ### 2. Identify potential shortcomings with your current pipeline
 
-
-One potential shortcoming would be what would happen when ... 
-
-Another shortcoming could be ...
+One pottential shortcomings which i see that the lines identifed are not always symmetrical to the lane marking for few frames.
 
 
 ### 3. Suggest possible improvements to your pipeline
 
-A possible improvement would be to ...
-
-Another potential improvement could be to ...
+Have a smooth transistion of the lane markings from hough lines from one frame to another in the video.
