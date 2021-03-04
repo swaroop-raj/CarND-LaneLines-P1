@@ -22,6 +22,8 @@ Applying gray scale image to the original image using cvtColor() function of ope
 
 <img src="examples/Step1.jpg" width="480" alt="Combined Image" />
 
+[image1]: ./examples/Step1.jpg "Grayscale"
+
 #### Step 2:
 
 Once the gray scale is applied we used that image to identify canny edges using the opencv.
